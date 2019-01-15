@@ -1,18 +1,23 @@
 version: 0.0
 os: linux
 files:
-  - source: /index.html
+  - source: ./install.txt
     destination: /var/www/html/
 hooks:
   BeforeInstall:
-    - location: scripts/install_dependencies
+    - location: ./scripts/before-install.sh
+      timeout: 200
+      runas: root
+  AfterInstall:
+    - location: ./scripts/after-install.sh
       timeout: 300
       runas: root
-    - location: scripts/start_server
+  ApplicationStart:
+    - location: scripts/application-start.sh
       timeout: 300
       runas: root
-  ApplicationStop:
-    - location: scripts/stop_server
+  ValidateService:
+    - location: ./scripts/validate-service.sh
       timeout: 300
-      runas: root
+
 
